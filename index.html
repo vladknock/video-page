@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Interface</title>
+    <link rel="stylesheet" href="assets/styles/controls.css">
+    <link rel="stylesheet" href="assets/styles/globals.css">
+    <link rel="stylesheet" href="assets/styles/progress-bar.css">
+    <link rel="stylesheet" href="assets/styles/video.css">
+    <link rel="stylesheet" href="assets/styles/volume.css">
+  </head>
+  <body style="background-color: gray">
+    <div class="container">
+      <div class="video start hideable" data-video-js>
+        <div class="video__item">
+          <video class="video__object" id="video" preload="metadata">
+            <source src="assets/video/video_ai.mp4" type="video/mp4" />
+          </video>
+        </div>
+
+        <div class="video__overlay">
+          <button data-overlay-btn><span class="sr-only">Play</span></button>
+        </div>
+
+        <div class="video__controls controls">
+          <div class="controls__body">
+            <div class="controls__header video-header">
+              <h2 class="video-header__title">Example of the video's title</h2>
+              <p class="video-header__author">Author</p>
+            </div>
+
+            <div class="controls__centre" data-clickable-area></div>
+
+            <div class="controls__footer">
+              <div class="controls__progress">
+                <input
+                  data-video-progress
+                  type="range"
+                  name="progress"
+                  id="progress"
+                  min="0"
+                  max="100"
+                  step="1"
+                  value="0"
+                />
+              </div>
+              <ul class="controls__general general">
+                <li class="general__toggle-btn">
+                  <button data-toggle-btn><span class="sr-only">Play</span></button>
+                </li>
+                <li data-volume-controls class="general__volume volume">
+                  <button data-volume-btn class="volume__on-off-btn"><span class="sr-only">On</span></button>
+                  <div class="volume__range-bar">
+                    <img 
+                      src="assets/icons/volume-low-solid.svg" 
+                      alt="Volume Low"
+                      width="25"
+                      height="25" />
+                    <input
+                      data-volume-range-bar
+                      type="range"
+                      name="volume-range"
+                      id="volume-range"
+                      min="0"
+                      max="1"
+                      step="0.01"
+                      value="1"
+                    />
+                    <img
+                      src="assets/icons/volume-high-solid.svg"
+                      alt="Volume High"
+                      width="25"
+                      height="25"
+                    />
+                  </div>
+                </li>
+                <li class="general__time"><span data-timer></span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="assets/scripts/main.js"></script>
+  </body>
+</html>
