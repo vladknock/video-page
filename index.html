@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="assets/styles/progress-bar.css">
     <link rel="stylesheet" href="assets/styles/video.css">
     <link rel="stylesheet" href="assets/styles/volume.css">
+    <link rel="stylesheet" href="assets/styles/playback-rate.css">
   </head>
   <body style="background-color: gray">
     <div class="container">
@@ -23,7 +24,7 @@
           <button data-overlay-btn><span class="sr-only">Play</span></button>
         </div>
 
-        <div class="video__controls controls">
+        <div class="video__controls controls" data-controls>
           <div class="controls__body">
             <div class="controls__header video-header">
               <h2 class="video-header__title">Example of the video's title</h2>
@@ -46,10 +47,10 @@
                 />
               </div>
               <ul class="controls__general general">
-                <li class="general__toggle-btn">
+                <li data-element class="general__toggle-btn">
                   <button data-toggle-btn><span class="sr-only">Play</span></button>
                 </li>
-                <li data-volume-controls class="general__volume volume">
+                <li data-element data-volume-controls class="general__volume volume mobile-hidden">
                   <button data-volume-btn class="volume__on-off-btn"><span class="sr-only">On</span></button>
                   <div class="volume__range-bar">
                     <img 
@@ -75,7 +76,13 @@
                     />
                   </div>
                 </li>
-                <li class="general__time"><span data-timer></span></li>
+                <li data-element class="general__playback-rate playback-rate mobile-hidden">
+                  <button data-speed-btn class="playback-rate__btn"><span class="sr-only">Switch to 2x speed</span></button>
+                </li>
+                <li data-element class="general__time"><span data-timer></span></li>
+                <li data-element class="general__full-screen">
+                  <button data-toggle-screen></button>
+                </li>
               </ul>
             </div>
           </div>

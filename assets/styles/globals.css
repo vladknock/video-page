@@ -30,6 +30,6 @@ h2, p {
     justify-content: center;
     align-items: center;
     font-family: system-ui;
-    font-size: 1rem;
+    font-size: clamp(12px, 3vw, 18px);
     color: white;
 }

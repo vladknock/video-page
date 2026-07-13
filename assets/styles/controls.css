@@ -1,3 +1,7 @@
+[data-controls] {
+    --fullScreenVisibility: block;
+}
+
 .controls__body {
     display: flex;
     flex-direction: column;
@@ -28,9 +32,14 @@
 }
 
 .general__toggle-btn button,
-.volume__on-off-btn {
-    width: 50px;
-    height: 50px;
+.volume__on-off-btn,
+.playback-rate button,
+.general__full-screen button {
+    display: block;
+    width: 10vw;
+    height: 10vw;
+    max-width: 50px;
+    max-height: 50px;
     background-repeat: no-repeat;
     background-position: center;
     background-size: 50%;
@@ -38,26 +47,42 @@
     border: none;
     background-color: transparent;
     cursor: pointer;
+    aspect-ratio: 1;
+}
+
+[data-element].mobile-hidden {
+    display: var(--fullScreenVisibility);
 }
 
 .general__toggle-btn button {
-    background-image: url(../assets/icons/play-solid.svg);
+    background-image: url(../icons/play-solid.svg);
 }
 
 .video.hideable .general__toggle-btn button {
-    background-image: url(../assets/icons/pause-solid.svg);
+    background-image: url(../icons/pause-solid.svg);
 }
 
 @media (hover:hover) {
     .general__toggle-btn button:hover,
-    .volume__on-off-btn:hover {
+    .volume__on-off-btn:hover,
+    .playback-rate button:hover,
+    .general__full-screen button:hover {
+        background-color: rgba(128, 128, 128, 0.5);
+    }
+}
+
+@media (hover: none) {
+    .general__toggle-btn button:active,
+    .volume__on-off-btn:active,
+    .playback-rate button:active,
+    .general__full-screen button:active {
         background-color: rgba(128, 128, 128, 0.5);
     }
 }
 
 .general__volume {
     position: relative;
-    margin-left: 25px; 
+    margin-left: 18px;
 }
 
 .general__volume:hover .volume__range-bar {
@@ -66,13 +91,24 @@
 }
 
 .volume__on-off-btn {
-    background-image: url(../assets/icons/volume-solid.svg);
+    background-image: url(../icons/volume-solid.svg);
 }
 
 .volume__on-off-btn.muted {
-    background-image: url(./icons/volume-xmark-solid.svg);
+    background-image: url(../icons/volume-xmark-solid.svg);
 }
 
 .general__time {
     margin-left: auto;
+    margin-right: 15px;
+}
+
+.general__full-screen button {
+    background-image: url("../icons/expand-solid.svg");
+}
+
+@media (max-width: 1000px) {
+    .controls__general {
+        --fullScreenVisibility: none;
+    }
 }

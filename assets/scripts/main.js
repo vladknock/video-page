@@ -1,5 +1,7 @@
 const videoContainer = document.querySelector("[data-video-js]");
+const videoControls = document.querySelector("[data-controls]");
 const video = document.getElementById("video");
+const videoProgressBar = document.querySelector("[data-video-progress]");
 const videoTimer = document.querySelector("[data-timer]");
 
 const overlayBtn = document.querySelector("[data-overlay-btn]");
@@ -9,11 +11,14 @@ const toggleBtn = document.querySelector("[data-toggle-btn]");
 const volumeToggleBtn = document.querySelector("[data-volume-btn]");
 const volumeRangeBar = document.querySelector("[data-volume-range-bar]");
 
-const videoProgressBar = document.querySelector("[data-video-progress]");
+const speedToggleBtn = document.querySelector("[data-speed-btn]");
+
+const fullscreenBtn = document.querySelector("[data-toggle-screen]");
 
 const state = {
   volumeLvl: null,
   isSeeking: false,
+  isInteracting: false,
 };
 
 videoContainer.addEventListener("click", toggleVideoStatus);
@@ -158,7 +163,7 @@ function changeVolume(event) {
 }
 
 function setProgress(varName, param, rangeBar) {
-  const percent = param * 100;
+  const percent = Math.round(param * 100);
 
   rangeBar.style.setProperty(`--${varName}LevelPercent`, `${percent}%`);
 }
@@ -186,4 +191,103 @@ function updateVideoProgress(progressPercent = null) {
 
   setProgress("progress", clampedProgress / 100, videoProgressBar);
   videoProgressBar.value = clampedProgress;
+}
+
+speedToggleBtn.addEventListener("click", toggleVideoSpeed);
+
+function toggleVideoSpeed() {
+  if (video.playbackRate === 1.0) {
+    video.playbackRate = 2.0;
+    speedToggleBtn.classList.add("sped-up");
+  } else {
+    video.playbackRate = 1.0;
+    speedToggleBtn.classList.remove("sped-up");
+  }
+}
+
+// МОБИЛЬНОЕ ВЗАИМОДЕЙСТВИЕ С CONTROLS
+function isTouchDevice() {
+  return "maxTouchPoints" in navigator && navigator.maxTouchPoints > 0;
+}
+
+if (isTouchDevice()) {
+  let hideTimeout = null;
+
+  const updateTimer = () => {
+    const isVisible = videoControls.classList.contains("show-controls");
+    clearTimeout(hideTimeout);
+
+    if (isVisible && !state.isInteracting) {
+      hideTimeout = setTimeout(
+        () => videoControls.classList.toggle("show-controls"),
+        3000,
+      );
+    }
+  };
+
+  videoContainer.addEventListener("click", (event) => {
+    const element = event.target.closest("[data-element]");
+
+    if (element) {
+      updateTimer();
+      return;
+    }
+
+    videoControls.classList.toggle("show-controls");
+    updateTimer();
+  });
+
+  videoControls.addEventListener(
+    "touchstart",
+    () => {
+      state.isInteracting = true;
+      clearTimeout(hideTimeout); // Останавливаем скрытие
+    },
+    { passive: true },
+  );
+
+  // Пользователь отпустил элемент управления
+  videoControls.addEventListener(
+    "touchend",
+    () => {
+      state.isInteracting = false;
+      updateTimer(); // Запускаем таймер заново после окончания взаимодействия
+    },
+    { passive: true },
+  );
+
+  function handleOrientationChange() {
+    // Проверяем, повернут ли экран горизонтально (landscape)
+    const isLandscape = screen.orientation.type.startsWith("landscape");
+
+    if (isLandscape) {
+      // Разворачиваем видео на весь экран
+      if (video.requestFullscreen) {
+        video.requestFullscreen().catch((err) => {
+          console.log(
+            "Блокировка браузера: нужен предварительный клик пользователя на странице.",
+            err,
+          );
+        });
+      } else if (video.webkitEnterFullscreen) {
+        // Специально для Safari на iPhone
+        video.webkitEnterFullscreen();
+      }
+      videoControls.style.setProperty("--fullScreenVisibility", "block");
+    } else {
+      // Если вернули в вертикальный режим — выходим из полного экрана
+      if (document.exitFullscreen && document.fullscreenElement) {
+        document.exitFullscreen();
+      } else if (video.webkitExitFullscreen) {
+        video.webkitExitFullscreen();
+      }
+      videoControls.style.setProperty("--fullScreenVisibility", "none");
+    }
+  }
+
+  // Подключаем слушатель изменений (поддерживает современные браузеры)
+  if (screen.orientation) {
+    fullscreenBtn.addEventListener("click", handleOrientationChange);
+    screen.orientation.addEventListener("change", handleOrientationChange);
+  }
 }

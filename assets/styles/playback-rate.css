@@ -1,0 +1,8 @@
+.playback-rate button {
+    background-size: 30%;
+    background-image: url("../icons/1-solid.svg");
+}
+
+.playback-rate button.sped-up {
+    background-image: url("../icons/2-solid.svg");
+}

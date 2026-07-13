@@ -36,11 +36,6 @@ input[type="range"]:focus {
     transition: transform 0.1s ease;
 }
 
-.controls__progress input::-webkit-slider-runnable-track:hover,
-.controls__progress input::-moz-range-track:hover {
-    transform: scale(1.2);
-}
-
 .controls__progress input::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;

@@ -23,7 +23,7 @@
     .video:not(.start, .repeat):hover .video__overlay {
         visibility: visible;
         opacity: 1;
-        background-color: rgba(0, 0, 0, 0.225);
+        background-color: rgba(0, 0, 0, 0.425);
     }
 }
 
@@ -45,7 +45,7 @@
     display: var(--isButtonDisplayed);
     width: 95px;
     height: 95px;
-    background-image: url(../assets/icons/play-solid.svg);
+    background-image: url(../icons/play-solid.svg);
     background-repeat: no-repeat;
     background-position: center;
     background-size: 50%;
@@ -60,7 +60,7 @@
 }
 
 .video.repeat .video__overlay button {
-    background-image: url(../assets/icons/arrow-rotate-right-solid.svg);
+    background-image: url(../icons/arrow-rotate-right-solid.svg);
 }
 
 .video__item {
@@ -88,8 +88,20 @@
     opacity: 0;
 }
 
+/* МОБИЛЬНЫЙ ВЗАИМОДЕЙСТВИЕ */
+.video .video__controls.show-controls {
+    visibility: visible;
+    opacity: 1;
+}
+
+.video:has(.video__controls.show-controls) .video__overlay {
+    visibility: visible;
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.225);
+}
+
 @media (hover:hover) {
-    .video:not(.start, .repeat):hover .video__controls {
+    .video:not(.start, .repeat):hover .video__controls { 
         visibility: visible;
         opacity: 1;
     }
